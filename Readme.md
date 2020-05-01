@@ -2,6 +2,8 @@
 
 This small tool helps you to import shared Hideouts from other Users by automating decoration search for masters.
 
+[**Watch the video preview**](https://youtu.be/nX1mI044_1I)
+
 [**Check here how to use it**](https://github.com/Jukkales/PoE-Hideout-Helper/blob/master/HOWTO.md)
 
 [**Download Latest Version**](https://github.com/Jukkales/PoE-Hideout-Helper/releases/latest)
