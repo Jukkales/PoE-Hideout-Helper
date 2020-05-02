@@ -16,10 +16,7 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -34,11 +31,12 @@ public class Loader {
     private static final String[] LANGUAGES = new String[]{"us", "de", "fr", "kr", "br", "ru", "sp", "th"};
     private static final String MUSIC_FILENAME = "Music.json";
     private static final String PETS_FILENAME = "Pet.json";
-    private static final String VERSION = "1.0";
     private static final String WORLD_AREAS_FILENAME = "WorldAreas.json";
 
     private static final ObjectMapper mapper =
             new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+    private static String DATA_VERSION;
 
     private HashMap<String, List<BaseItemTypeData>> baseItems = new HashMap<>();
     private List<HideoutDoodadsData> hideoutDoodads;
@@ -48,7 +46,11 @@ public class Loader {
     private HashMap<String, List<WorldAreasData>> worldAreas = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
-        new File("./app/src/main/resources/data/" + VERSION).mkdirs();
+        Properties prop = new Properties();
+        prop.load(Loader.class.getResourceAsStream("/application.properties"));
+        DATA_VERSION = prop.getProperty("app.data.version");
+
+        new File("./app/src/main/resources/data/" + DATA_VERSION).mkdirs();
 
         Loader l = new Loader();
         l.loadAll(new File("./parser/src/main/resources/input/"));
@@ -229,7 +231,7 @@ public class Loader {
         loadMtxInfoPets(itemList);
 
         GZIPOutputStream out = new GZIPOutputStream(
-                new FileOutputStream(new File("./app/src/main/resources/data/" + VERSION + "/decorations.dat")));
+                new FileOutputStream(new File("./app/src/main/resources/data/" + DATA_VERSION + "/decorations.dat")));
         ObjectOutputStream oos = new ObjectOutputStream(out);
         oos.writeObject(itemList);
         oos.flush();
@@ -268,7 +270,7 @@ public class Loader {
         }
 
         GZIPOutputStream out = new GZIPOutputStream(
-                new FileOutputStream(new File("./app/src/main/resources/data/" + VERSION + "/hideouts.dat")));
+                new FileOutputStream(new File("./app/src/main/resources/data/" + DATA_VERSION + "/hideouts.dat")));
         ObjectOutputStream oos = new ObjectOutputStream(out);
         oos.writeObject(itemList);
         oos.flush();
@@ -298,7 +300,7 @@ public class Loader {
         }
 
         GZIPOutputStream out = new GZIPOutputStream(
-                new FileOutputStream(new File("./app/src/main/resources/data/" + VERSION + "/music.dat")));
+                new FileOutputStream(new File("./app/src/main/resources/data/" + DATA_VERSION + "/music.dat")));
         ObjectOutputStream oos = new ObjectOutputStream(out);
         oos.writeObject(itemList);
         oos.flush();

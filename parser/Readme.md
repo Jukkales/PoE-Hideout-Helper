@@ -1,6 +1,6 @@
 # HideoutHelper Resource Converter
 
-This submodule uses the extracted of the games Content.ggpk to generate the required Files ``decorations.dat``, ``hideouts.dat`` and ``music.dat``.
+This submodule uses the extracted files of the games Content.ggpk to generate the required files ``decorations.dat``, ``hideouts.dat`` and ``music.dat``.
 
 ## HowTo
 

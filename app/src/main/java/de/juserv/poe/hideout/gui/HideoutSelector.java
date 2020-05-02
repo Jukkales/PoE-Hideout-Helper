@@ -1,8 +1,11 @@
 package de.juserv.poe.hideout.gui;
 
+import de.juserv.poe.hideout.App;
 import de.juserv.poe.hideout.model.Hideout;
 import de.juserv.poe.hideout.model.Language;
+import de.juserv.poe.hideout.service.HideoutService;
 import de.juserv.poe.hideout.service.PoEHelper;
+import de.juserv.poe.hideout.service.UpdateCheck;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
@@ -210,12 +213,13 @@ public class HideoutSelector extends JDialog {
     public void doModal() {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setModal(true);
+        UpdateCheck.checkNewVersion();
         setVisible(true);
     }
 
     private void invokeHowTo() {
         try {
-            Desktop.getDesktop().browse(new URI("https://github.com/Jukkales/PoE-Hideout-Helper/blob/master/HOWTO.md"));
+            Desktop.getDesktop().browse(new URI(App.getProperty("app.baseUrl") + "/blob/master/HOWTO.md"));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
                     Messages.getString("error"),
@@ -236,15 +240,19 @@ public class HideoutSelector extends JDialog {
 
     private void invokeSubmit() {
         updateHideouts();
-        if (PoEHelper.isRunning()) {
-            GameOverlay overlay =
-                    new GameOverlay(fullHideout, partialHideout, (Language) comboBoxGameLanguage.getSelectedItem());
-            dispose(false);
-            overlay.doModal();
+        if (HideoutService.getINSTANCE().canPurchaseDecorations(fullHideout, partialHideout)) {
+            if (PoEHelper.isRunning()) {
+                GameOverlay overlay =
+                        new GameOverlay(fullHideout, partialHideout, (Language) comboBoxGameLanguage.getSelectedItem());
+                dispose(false);
+                overlay.doModal();
+            } else {
+                JOptionPane.showMessageDialog(this, Messages.getString("error.gameNotRunning"),
+                        Messages.getString("warning"),
+                        JOptionPane.WARNING_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, Messages.getString("error.gameNotRunning"),
-                    Messages.getString("warning"),
-                    JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, Messages.getString("message.nothingToPurchase"));
         }
     }
 

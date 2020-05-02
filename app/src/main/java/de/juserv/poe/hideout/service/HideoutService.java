@@ -1,5 +1,6 @@
 package de.juserv.poe.hideout.service;
 
+import de.juserv.poe.hideout.App;
 import de.juserv.poe.hideout.gui.Messages;
 import de.juserv.poe.hideout.model.*;
 import lombok.Getter;
@@ -87,6 +88,14 @@ public class HideoutService {
         return result;
     }
 
+    public boolean canPurchaseDecorations(Hideout full, Hideout partial) {
+        List<DoodadInfo> filteredList = new ArrayList<>(full.getDoodadList());
+        partial.getDoodadList().forEach(filteredList::remove);
+        filteredList = filteredList.stream().filter(e -> Master.byId(e.getMaster()) != Master.NON_MASTER)
+                .collect(Collectors.toList());
+        return filteredList.size() > 0;
+    }
+
     public Optional<DoodadInfo> doodadByHashId(Long id) {
         return doodadInfos.stream().filter(e -> e.getHashId().equals(id)).findFirst();
     }
@@ -117,16 +126,17 @@ public class HideoutService {
     }
 
     private void loadResources() throws Exception {
+        String version = App.getProperty("app.data.version");
         try (ObjectInputStream in = new ObjectInputStream(
-                new GZIPInputStream(getClass().getResourceAsStream("/data/1.0/hideouts.dat")))) {
+                new GZIPInputStream(getClass().getResourceAsStream("/data/" + version + "/hideouts.dat")))) {
             hideoutInfos = (List<HideoutInfo>) in.readObject();
         }
         try (ObjectInputStream in = new ObjectInputStream(
-                new GZIPInputStream(getClass().getResourceAsStream("/data/1.0/music.dat")))) {
+                new GZIPInputStream(getClass().getResourceAsStream("/data/" + version + "/music.dat")))) {
             musicInfos = (List<MusicInfo>) in.readObject();
         }
         try (ObjectInputStream in = new ObjectInputStream(
-                new GZIPInputStream(getClass().getResourceAsStream("/data/1.0/decorations.dat")))) {
+                new GZIPInputStream(getClass().getResourceAsStream("/data/" + version + "/decorations.dat")))) {
             doodadInfos = (List<DoodadInfo>) in.readObject();
         }
     }

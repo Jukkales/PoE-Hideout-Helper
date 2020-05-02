@@ -245,7 +245,7 @@ public class GameOverlay extends JDialog {
     private void invokeItemNext() {
         if (buttonNextItem.isEnabled()) {
             if (currentItemIndex >= distinctDoodads.get(currentMaster).size() - 1) {
-                if (currentMaster.next() != firstMaster) {
+                if (getNextMaster() != firstMaster) {
                     shortKeysEnabled = false;
                     JOptionPane.showMessageDialog(null,
                             Messages.getString("message.nextMaster", currentMaster.getName(),
@@ -313,7 +313,7 @@ public class GameOverlay extends JDialog {
 
     private void updateItems() {
         buttonPrevMaster.setEnabled(currentMaster != firstMaster);
-        buttonNextMaster.setEnabled(currentMaster.next() != firstMaster);
+        buttonNextMaster.setEnabled(getNextMaster() != firstMaster);
 
         int doodadCount = distinctDoodads.get(currentMaster).size();
         labelCurrentMaster.setText(currentMaster.getName());
@@ -343,7 +343,7 @@ public class GameOverlay extends JDialog {
                 buttonNextItem.setEnabled(true);
                 boolean next = currentItemIndex < distinctDoodads.get(currentMaster).size() - 1;
                 if (!next) {
-                    if (currentMaster.next() != firstMaster) {
+                    if (getNextMaster() != firstMaster) {
                         buttonNextItem.setText(Messages.getString("button.nextMasterOnNextItemButton"));
                     } else {
                         buttonNextItem.setText(Messages.getString("button.finish"));

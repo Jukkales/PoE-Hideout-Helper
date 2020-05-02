@@ -140,6 +140,8 @@ public class PoEHelper {
                 robot.keyPress(KeyEvent.VK_V);
                 robot.keyRelease(KeyEvent.VK_CONTROL);
                 robot.keyRelease(KeyEvent.VK_V);
+                Thread.sleep(50);
+                clipboard.setContents(new StringSelection(s), null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
