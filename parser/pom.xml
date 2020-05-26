@@ -7,7 +7,7 @@
     <parent>
         <groupId>de.juserv.poe</groupId>
         <artifactId>HideoutHelper</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <artifactId>HideoutHelper-parser</artifactId>
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>de.juserv.poe</groupId>
             <artifactId>HideoutHelper-App</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 

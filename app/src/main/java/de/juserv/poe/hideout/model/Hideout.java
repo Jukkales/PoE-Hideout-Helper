@@ -133,27 +133,48 @@ public class Hideout {
      */
     private void parseFile() {
         try {
+
+            // First try UTF-16, it is used by PoE
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(new FileInputStream(hideoutFile), StandardCharsets.UTF_16LE));
             List<String> lines = br.lines().collect(Collectors.toList());
             br.close();
-            for (String line : lines) {
-                Matcher hideoutMatcher = HIDEOUT_PATTERN.matcher(line);
-                Matcher musicMatcher = MUSIC_PATTERN.matcher(line);
-                Matcher doodadMatcher = DOODAD_PATTERN.matcher(line);
+            parseLines(lines);
 
-                if (hideoutMatcher.matches()) {
-                    hideoutHashId = Long.valueOf(hideoutMatcher.group(1));
-                } else if (musicMatcher.matches()) {
-                    musicHashId = Long.valueOf(musicMatcher.group(1));
-                } else if (doodadMatcher.matches()) {
-                    doodadIds.add(Long.valueOf(doodadMatcher.group(1)));
-                }
+            // If there is "nothing" the file is maybe encoded with UTF-8, try again
+            if (hideoutHashId == null && doodadIds.isEmpty()) {
+                br = new BufferedReader(
+                        new InputStreamReader(new FileInputStream(hideoutFile), StandardCharsets.UTF_8));
+                lines = br.lines().collect(Collectors.toList());
+                br.close();
+                parseLines(lines);
             }
+
         } catch (Exception e) {
             error = e;
         }
         loadData();
+    }
+
+    /**
+     * Loads everything from the given lines.
+     *
+     * @param lines loaded lines.
+     */
+    private void parseLines(List<String> lines) {
+        for (String line : lines) {
+            Matcher hideoutMatcher = HIDEOUT_PATTERN.matcher(line);
+            Matcher musicMatcher = MUSIC_PATTERN.matcher(line);
+            Matcher doodadMatcher = DOODAD_PATTERN.matcher(line);
+
+            if (hideoutMatcher.matches()) {
+                hideoutHashId = Long.valueOf(hideoutMatcher.group(1));
+            } else if (musicMatcher.matches()) {
+                musicHashId = Long.valueOf(musicMatcher.group(1));
+            } else if (doodadMatcher.matches()) {
+                doodadIds.add(Long.valueOf(doodadMatcher.group(1)));
+            }
+        }
     }
 
     /**

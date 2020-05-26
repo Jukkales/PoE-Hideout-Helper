@@ -37,6 +37,8 @@ public class HideoutSelector extends JDialog {
 
     public HideoutSelector() {
         super((Window) null);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PoE Hideout (.hideout)", "hideout");
+        chooser.addChoosableFileFilter(filter);
         createGUI();
     }
 
@@ -47,6 +49,8 @@ public class HideoutSelector extends JDialog {
         if (fullHideout != null) {
             chooser.setCurrentDirectory(new File(fullHideout.getHideoutFile()).getParentFile());
         }
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PoE Hideout (.hideout)", "hideout");
+        chooser.addChoosableFileFilter(filter);
         createGUI();
         comboBoxGameLanguage.setSelectedItem(language);
     }
@@ -55,8 +59,6 @@ public class HideoutSelector extends JDialog {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
         chooser.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("PoE Hideout (.hideout)", "hideout");
-        chooser.addChoosableFileFilter(filter);
         int result = chooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();

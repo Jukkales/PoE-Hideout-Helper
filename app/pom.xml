@@ -7,7 +7,7 @@
     <parent>
         <groupId>de.juserv.poe</groupId>
         <artifactId>HideoutHelper</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <artifactId>HideoutHelper-App</artifactId>
@@ -93,12 +93,12 @@
                                 <jdkPreference>preferJre</jdkPreference>
                             </jre>
                             <versionInfo>
-                                <fileVersion>1.1.0.0</fileVersion>
+                                <fileVersion>1.2.0.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>Steffen Herrmann</copyright>
-                                <productVersion>1.1.0.0</productVersion>
-                                <txtProductVersion>1.1.0.0</txtProductVersion>
+                                <productVersion>1.2.0.0</productVersion>
+                                <txtProductVersion>1.2.0.0</txtProductVersion>
                                 <productName>${project.name}</productName>
                                 <internalName>HideoutHelper</internalName>
                                 <originalFilename>HideoutHelper.exe</originalFilename>
